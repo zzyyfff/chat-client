@@ -9,6 +9,7 @@ import SignIn from './auth/components/SignIn'
 import SignOut from './auth/components/SignOut'
 import ChangePassword from './auth/components/ChangePassword'
 import ChatList from './chatlist/ChatList'
+import Chat from './chat/Chat'
 
 import { AlertList } from 'react-bs-notifier'
 
@@ -91,6 +92,9 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/chat-list' render={() => (
             <ChatList alert={this.alert} user={user} />
           )} />
+          <AuthenticatedRoute user={user} path='/chat/:id' render={({ match }) => (
+            <Chat alert={this.alert} user={user} match={match} />
+          )} />
         </main>
       </React.Fragment>
     )
@@ -98,3 +102,5 @@ class App extends Component {
 }
 
 export default App
+
+// debugger // eslint-disable-line no-debugger
