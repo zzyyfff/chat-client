@@ -8,6 +8,7 @@ import SignUp from './auth/components/SignUp'
 import SignIn from './auth/components/SignIn'
 import SignOut from './auth/components/SignOut'
 import ChangePassword from './auth/components/ChangePassword'
+import ChatList from './chatlist/ChatList'
 
 import { AlertList } from 'react-bs-notifier'
 
@@ -47,7 +48,6 @@ class App extends Component {
       }, timeout)
     })
   }
-
   onAlertDismissed (alert) {
     const { alerts } = this.state
 
@@ -88,7 +88,9 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword alert={this.alert} user={user} />
           )} />
-          <h1>Test</h1>
+          <AuthenticatedRoute user={user} path='/chat-list' render={() => (
+            <ChatList alert={this.alert} user={user} />
+          )} />
         </main>
       </React.Fragment>
     )

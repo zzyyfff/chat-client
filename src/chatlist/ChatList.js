@@ -1,36 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import './ChatList.scss'
+import ChatListItem from './ChatListItem'
+import { getChats } from './api'
 
-const authenticatedOptions = (
-  <React.Fragment>
-    <Link to="/change-password">Change Password</Link>
-    <Link to="/sign-out">Sign Out</Link>
-  </React.Fragment>
-)
+const ChatList = ({ user, alert }) => {
+  const [chatArray, setChatArray] = useState([])
 
-const unauthenticatedOptions = (
-  <React.Fragment>
-    <Link to="/sign-up">Sign Up</Link>
-    <Link to="/sign-in">Sign In</Link>
-  </React.Fragment>
-)
+  useEffect(() => {
+    getChats(user)
+      .then(res => setChatArray(res.data.chats))
+  }, [user])
 
-const alwaysOptions = (
-  <React.Fragment>
-    <Link to="/">Home</Link>
-  </React.Fragment>
-)
-
-const ChatList = ({ user }) => (
-  <div className="chat-list">
-    <h1>Chats...</h1>
-
-    { !user && <span>None yet. Start a new conversation!</span>}
-    { user ? authenticatedOptions : unauthenticatedOptions }
-    { alwaysOptions }
-
-  </div>
-)
+  return (
+    <div className="chat-list">
+      <h1 className='chat-list-title'>Chats...</h1>
+      {chatArray.length === 0
+        ? <div className="empty-list">Start a new conversation!</div>
+        : '' }
+      {chatArray && chatArray.map((chat, index) => (
+        <ChatListItem key={index} user={user} alert={alert} chat={chat} />
+      ))}
+    </div>
+  )
+}
 
 export default ChatList

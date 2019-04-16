@@ -28,7 +28,7 @@ class SignUp extends Component {
       .then(() => signIn(this.state))
       .then(res => setUser(res.data.user))
       .then(() => alert(messages.signUpSuccess, 'success', 'Succesfully registered!', 1700))
-      .then(() => history.push('/'))
+      .then(() => history.push('/chat-list'))
       .catch(error => {
         console.error(error)
         this.setState({ username: '', password: '', passwordConfirmation: '' })

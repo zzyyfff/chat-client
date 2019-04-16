@@ -1,1 +1,31 @@
 $charcoal: #bbb;
+$black75: rgba(0, 0, 0, .75);
+
+.break {
+  height: 0;
+  width: 100%;
+}
+
+.chat-list-item {
+  box-shadow: 1px 1px 3px 0 $black75;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.chat-list-title {
+  padding-left: .438rem;
+  padding-right: .438rem;
+}
+
+// .online-status {
+//   justify-self: self-end;
+// }
+
+.topline {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
