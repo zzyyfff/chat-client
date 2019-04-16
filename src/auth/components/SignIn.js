@@ -9,7 +9,7 @@ class SignIn extends Component {
     super()
 
     this.state = {
-      email: '',
+      username: '',
       password: ''
     }
   }
@@ -29,24 +29,24 @@ class SignIn extends Component {
       .then(() => history.push('/'))
       .catch(error => {
         console.error(error)
-        this.setState({ email: '', password: '' })
+        this.setState({ username: '', password: '' })
         alert(messages.signInFailure, 'danger')
       })
   }
 
   render () {
-    const { email, password } = this.state
+    const { username, password } = this.state
 
     return (
       <form className='auth-form' onSubmit={this.onSignIn}>
         <h3>Sign In</h3>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="username">username</label>
         <input
           required
-          type="email"
-          name="email"
-          value={email}
-          placeholder="Email"
+          type="text"
+          name="username"
+          value={username}
+          placeholder="username"
           onChange={this.handleChange}
         />
         <label htmlFor="password">Password</label>
