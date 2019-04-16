@@ -9,7 +9,7 @@ import SignIn from './auth/components/SignIn'
 import SignOut from './auth/components/SignOut'
 import ChangePassword from './auth/components/ChangePassword'
 
-import Alert from 'react-bootstrap/Alert'
+import { AlertList } from 'react-bs-notifier'
 
 class App extends Component {
   constructor () {
@@ -25,8 +25,31 @@ class App extends Component {
 
   clearUser = () => this.setState({ user: null })
 
-  alert = (message, type) => {
-    this.setState({ alerts: [...this.state.alerts, { message, type }] })
+  alert = (message, type, headline = '') => {
+    const newAlert = {
+      id: (new Date()).getTime(),
+      type: type,
+      headline: headline,
+      message: message
+    }
+
+    this.setState({
+      alerts: [...this.state.alerts, newAlert]
+    })
+  }
+
+  onAlertDismissed (alert) {
+    const { alerts } = this.state
+
+    // find the index of the alert that was dismissed
+    const index = alerts.indexOf(alert)
+
+    if (index >= 0) {
+      this.setState({
+        // remove the alert from the array
+        alerts: [...alerts.slice(0, index), ...alerts.slice(index + 1)]
+      })
+    }
   }
 
   render () {
@@ -35,13 +58,13 @@ class App extends Component {
     return (
       <React.Fragment>
         <Header user={user} />
-        {alerts.map((alert, index) => (
-          <Alert key={index} dismissible variant={alert.type}>
-            <Alert.Heading>
-              {alert.message}
-            </Alert.Heading>
-          </Alert>
-        ))}
+        <AlertList
+          position='bottom-right'
+          alerts={alerts}
+          timeout={1700}
+          dismissTitle="Begone!"
+          onDismiss={this.onAlertDismissed.bind(this)}
+        />
         <main className="container">
           <Route path='/sign-up' render={() => (
             <SignUp alert={this.alert} setUser={this.setUser} />
