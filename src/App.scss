@@ -19,5 +19,18 @@ $charcoal: #ccc;
 }
 
 .container {
+  flex-grow: 1;
+  height: calc(100vh - 170px);
   padding: .188rem;
+}
+
+html, body, .root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }

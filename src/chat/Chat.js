@@ -1,6 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 
-// import './Chat.scss'
+import './Chat.scss'
 import { getChat } from '../chatlist/api'
 import { createMessage } from './api'
 // import Message from './Message'
@@ -43,19 +43,30 @@ const Chat = ({ user, alert, match }) => {
     setSendBody(event.target.value)
   }
 
+  useEffect(() => {
+    const scrollToBottom = () => {
+      this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+    }
+    // smoothly scroll to the most recent message when messageArray changes in length
+    scrollToBottom()
+  }, [messageArray.length])
+
   return (
-    <Fragment>
+    <div className='chat'>
+      <h1 className='message-list-title'>Chat with {chatWithName}</h1>
       <div className="message-list">
-        <h1 className='message-list-title'>Chat with {chatWithName}</h1>
         {messageArray.length === 0
           ? <div className="empty-chat">Start the conversation!</div>
           : '' }
         {messageArray && messageArray.map((message, index) => (
           <h5 key={index}>{message.owner.username}: {message.body}</h5>
         ))}
+        <div style={{ float: 'left', clear: 'both' }}
+          ref={(el) => { this.messagesEnd = el }}>
+        </div>
       </div>
       <SendFooter handleSendBodyChange={handleSendBodyChange} handleSubmit={handleSubmit} sendBody={sendBody} />
-    </Fragment>
+    </div>
   )
 }
 

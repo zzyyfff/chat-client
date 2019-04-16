@@ -1,0 +1,19 @@
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.message-list {
+  flex-grow: 1;
+  flex-shrink: 0;
+  // = viewport - Header - SendFooter - message-list-title - .container padding
+  height: calc(100vh - 170px - 1.875rem - 3rem - .188rem);
+  overflow-y: scroll;
+}
+
+.message-list-title {
+  height: 3rem;
+  margin-bottom: 0;
+}
