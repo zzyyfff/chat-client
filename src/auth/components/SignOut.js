@@ -9,7 +9,7 @@ class SignOut extends Component {
     const { alert, history, clearUser, user } = this.props
 
     signOut(user)
-      .finally(() => alert(messages.signOutSuccess, 'success', 'Signed out'))
+      .finally(() => alert(messages.signOutSuccess, 'success', 'Signed out', 1700))
       .finally(() => history.push('/'))
       .finally(() => clearUser())
   }

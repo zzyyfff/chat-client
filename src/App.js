@@ -25,7 +25,7 @@ class App extends Component {
 
   clearUser = () => this.setState({ user: null })
 
-  alert = (message, type, headline = '') => {
+  alert = (message, type, headline = '', timeout = 2000) => {
     const newAlert = {
       id: (new Date()).getTime(),
       type: type,
@@ -33,8 +33,18 @@ class App extends Component {
       message: message
     }
 
-    this.setState({
-      alerts: [...this.state.alerts, newAlert]
+    this.setState(prevState => ({
+      alerts: [...prevState.alerts, newAlert]
+    }), () => {
+      setTimeout(() => {
+        const index = this.state.alerts.indexOf(newAlert)
+        if (index >= 0) {
+          this.setState(prevState => ({
+            // remove the alert from the array
+            alerts: [...prevState.alerts.slice(0, index), ...prevState.alerts.slice(index + 1)]
+          }))
+        }
+      }, timeout)
     })
   }
 
@@ -61,7 +71,7 @@ class App extends Component {
         <AlertList
           position='bottom-right'
           alerts={alerts}
-          timeout={1700}
+          timeout={0}
           dismissTitle="Begone!"
           onDismiss={this.onAlertDismissed.bind(this)}
         />

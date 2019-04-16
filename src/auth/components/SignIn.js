@@ -25,12 +25,12 @@ class SignIn extends Component {
 
     signIn(this.state)
       .then(res => setUser(res.data.user))
-      .then(() => alert(messages.signInSuccess, 'success', 'Welcome!'))
+      .then(() => alert(messages.signInSuccess, 'success', 'Welcome!', 1700))
       .then(() => history.push('/'))
       .catch(error => {
         console.error(error)
         this.setState({ username: '', password: '' })
-        alert(messages.signInFailure, 'danger', 'Failed to sign in.')
+        alert(messages.signInFailure, 'danger', 'Failed to sign in.', 1700)
       })
   }
 
@@ -42,7 +42,6 @@ class SignIn extends Component {
         <h3>Sign In</h3>
         <label htmlFor="username">username</label>
         <input
-          required
           type="text"
           name="username"
           value={username}
@@ -51,7 +50,6 @@ class SignIn extends Component {
         />
         <label htmlFor="password">Password</label>
         <input
-          required
           name="password"
           value={password}
           type="password"
