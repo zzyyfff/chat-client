@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { getChat } from './api'
 
 const ChatListItem = ({ user, chat, history }) => {
-  const [lastMessage, setLastMessage] = useState('')
+  const [lastMessage, setLastMessage] = useState('...')
   const [redirectToChat, setRedirectToChat] = useState(false)
 
   const chatWithName = user.username === chat.user1.username
@@ -15,7 +15,11 @@ const ChatListItem = ({ user, chat, history }) => {
     getChat(user, chat._id)
       .then(res => {
         const messages = res.data.chat.messages
-        return setLastMessage(messages[messages.length - 1].body)
+        if (messages.length > 0) {
+          return setLastMessage(messages[messages.length - 1].body)
+        } else {
+          return setLastMessage('...')
+        }
       })
   }, [user, chat])
 

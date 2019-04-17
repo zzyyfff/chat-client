@@ -21,13 +21,17 @@ export const getChat = function (user, id) {
   })
 }
 
-export const createChat = function (formData, user) {
+export const createChat = function (withUsername, user) {
   return axios({
     url: `${apiUrl}/chats`,
     method: 'POST',
     headers: {
       'Authorization': `Token token=${user.token}`
     },
-    data: formData
+    data: {
+      chat: {
+        with: withUsername
+      }
+    }
   })
 }
