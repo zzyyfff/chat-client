@@ -37,7 +37,7 @@ const Chat = ({ user, alert, match }) => {
         .catch(console.error)
     }
     retrieveMessages()
-    const id = setInterval(retrieveMessages, 1000)
+    const id = setInterval(retrieveMessages, 500)
     return () => clearInterval(id)
   }, [user, match.params.id])
 

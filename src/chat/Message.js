@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
 import './Message.scss'
-import { updateMessage } from './api'
+import { updateMessage, destroyMessage } from './api'
 
 const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
   const [messageBody, setMessageBody] = useState(message.body)
+  const thisIsMine = message.owner._id === user._id
 
   useEffect(() => {
     setMessageBody(message.body)
@@ -14,7 +15,6 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
     event.preventDefault()
     updateMessage(user, message._id, messageBody)
       .then(res => {
-        res.data.message.owner = { username: user.username }
         setMessageBody(res.data.message.body)
         setCurrentEditor('')
       })
@@ -26,14 +26,26 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
   }
 
   const handleMessageBodyClick = () => {
-    if (message.owner._id === user._id) {
+    if (thisIsMine) {
       setCurrentEditor(message._id)
     }
   }
 
+  const handleX = () => {
+    destroyMessage(user, message._id)
+      .then()
+      .catch(console.error)
+  }
+
   return (
     <div className='message'>
-      <h5 key={message._id}>{message.owner.username}: {currentEditor === message._id
+      <div className="name-line">
+        <h5 key={message._id}>{message.owner.username}:</h5>
+        {thisIsMine
+          ? <div className="close-x" onClick={handleX}>X&nbsp;&nbsp;&nbsp;</div>
+          : <div className="close-x"></div>}
+      </div>
+      <h5>{currentEditor === message._id
         ? <form className='update-message-form' onSubmit={handleSubmit}>
           <input className='update-message-input'
             value={messageBody}

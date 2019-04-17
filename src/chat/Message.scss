@@ -1,10 +1,27 @@
+$gray: #888;
+
 .message {
-  // height: 1.875rem;
   width: 100%;
+
+  :hover .close-x {
+    display: block;
+  }
 }
 
 .message-body {
   width: 100%;
+}
+
+.name-line {
+  display: flex;
+  justify-content: space-between;
+
+  .close-x {
+    color: $gray;
+    cursor: pointer;
+    display: none;
+    font-family: helvetica;
+  }
 }
 
 .update-message-form {

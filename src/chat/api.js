@@ -56,3 +56,13 @@ export const updateMessage = function (user, messageId, body) {
     }
   })
 }
+
+export const destroyMessage = function (user, messageId) {
+  return axios({
+    url: `${apiUrl}/messages/${messageId}`,
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Token token=${user.token}`
+    }
+  })
+}
