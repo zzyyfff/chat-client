@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import './Chat.scss'
@@ -6,11 +6,23 @@ import { getChat } from '../chatlist/api'
 import { createMessage } from './api'
 // import Message from './Message'
 import SendFooter from './SendFooter'
+import Message from './Message'
 
 const Chat = ({ user, alert, match }) => {
   const [messageArray, setMessageArray] = useState([])
   const [chatWithName, setChatWithName] = useState('')
   const [sendBody, setSendBody] = useState('')
+  const [currentEditor, setCurrentEditor] = useState('')
+
+  const clearCurrentEditor = () => {
+    setCurrentEditor('')
+  }
+
+  const inputEl = useRef(null)
+  // on load, set focus to input element
+  useEffect(() => {
+    inputEl.current.focus()
+  }, [])
 
   useEffect(() => {
     const retrieveMessages = () => {
@@ -61,7 +73,7 @@ const Chat = ({ user, alert, match }) => {
 
   return (
     <div className='chat'>
-      <h1 className='message-list-title'>
+      <h1 className='message-list-title' onClick={clearCurrentEditor}>
         <Link to='/chat-list' style={{ textDecoration: 'none' }}>↖</Link> Chat with {chatWithName}
       </h1>
       <div className="message-list">
@@ -69,17 +81,27 @@ const Chat = ({ user, alert, match }) => {
           ? <div className="empty-chat">Start the conversation!</div>
           : '' }
         {messageArray && messageArray.map((message, index) => (
-          <h5 key={index}>{message.owner.username}: {message.body}</h5>
+          <Message
+            key={message._id}
+            index={index}
+            user={user}
+            alert={alert}
+            message={message}
+            currentEditor={currentEditor}
+            setCurrentEditor={setCurrentEditor} />
         ))}
         <div style={{ float: 'left', clear: 'both' }}
           ref={(el) => { this.messagesEnd = el }}>
         </div>
       </div>
-      <SendFooter handleSendBodyChange={handleSendBodyChange} handleSubmit={handleSubmit} sendBody={sendBody} />
+      <SendFooter
+        handleSendBodyChange={handleSendBodyChange}
+        handleSubmit={handleSubmit}
+        sendBody={sendBody}
+        clearCurrentEditor={clearCurrentEditor}
+        inputEl={inputEl} />
     </div>
   )
 }
 
 export default Chat
-
-// <Message key={index} user={user} alert={alert} message={message} />

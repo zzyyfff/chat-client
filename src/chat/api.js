@@ -41,3 +41,18 @@ export const createMessage = function (user, body, chatId) {
     }
   })
 }
+
+export const updateMessage = function (user, messageId, body) {
+  return axios({
+    url: `${apiUrl}/messages/${messageId}`,
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Token token=${user.token}`
+    },
+    data: {
+      message: {
+        body: body
+      }
+    }
+  })
+}
