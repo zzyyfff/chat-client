@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import './Chat.scss'
 import { getChat } from '../chatlist/api'
@@ -53,7 +54,9 @@ const Chat = ({ user, alert, match }) => {
 
   return (
     <div className='chat'>
-      <h1 className='message-list-title'>Chat with {chatWithName}</h1>
+      <h1 className='message-list-title'>
+        <Link to='/chat-list' style={{ textDecoration: 'none' }}>↖</Link> Chat with {chatWithName}
+      </h1>
       <div className="message-list">
         {messageArray.length === 0
           ? <div className="empty-chat">Start the conversation!</div>
