@@ -17,6 +17,13 @@ const ChatList = ({ user, alert }) => {
       .catch(console.error)
   }, [user])
 
+  useEffect(() => {
+    document.title = `Chat App — ${user.username}`
+    return () => {
+      document.title = 'Chat App'
+    }
+  }, [user.username])
+
   const handleClose = () => {
     setTargetUser('')
     setShowModal(false)

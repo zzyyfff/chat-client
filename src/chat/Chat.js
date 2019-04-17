@@ -52,6 +52,13 @@ const Chat = ({ user, alert, match }) => {
     scrollToBottom()
   }, [messageArray.length])
 
+  useEffect(() => {
+    document.title = `Chatting with ${chatWithName}`
+    return () => {
+      document.title = `Chat App — ${user.username}`
+    }
+  }, [chatWithName, user.username])
+
   return (
     <div className='chat'>
       <h1 className='message-list-title'>
