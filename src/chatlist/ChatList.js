@@ -12,9 +12,14 @@ const ChatList = ({ user, alert }) => {
   const [targetUser, setTargetUser] = useState('')
 
   useEffect(() => {
-    getChats(user)
-      .then(res => setChatArray(res.data.chats))
-      .catch(console.error)
+    const retrieveChatList = () => {
+      getChats(user)
+        .then(res => setChatArray(res.data.chats))
+        .catch(console.error)
+    }
+    retrieveChatList()
+    const id = setInterval(retrieveChatList, 2000)
+    return () => clearInterval(id)
   }, [user])
 
   useEffect(() => {
