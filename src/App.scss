@@ -21,10 +21,27 @@ $charcoal: #ccc;
 .container {
   flex-grow: 1;
   height: calc(100vh - 170px);
-  padding: .188rem;
+  padding: 0.188rem;
 }
 
-html, body, .root {
+.home {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  overflow: hidden;
+
+  h2 {
+    color: $charcoal;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+
+.root,
+body,
+html {
   height: 100vh;
   overflow: hidden;
 }

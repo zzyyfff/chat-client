@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom'
 
 import AuthenticatedRoute from './auth/components/AuthenticatedRoute'
 import Header from './header/Header'
+import Home from './Home'
 import SignUp from './auth/components/SignUp'
 import SignIn from './auth/components/SignIn'
 import SignOut from './auth/components/SignOut'
@@ -77,6 +78,9 @@ class App extends Component {
           onDismiss={this.onAlertDismissed.bind(this)}
         />
         <main className="container">
+          <Route user={user} exact path='/' render={() => (
+            <Home alert={this.alert} user={user} />
+          )} />
           <Route path='/sign-up' render={() => (
             <SignUp alert={this.alert} setUser={this.setUser} />
           )} />
