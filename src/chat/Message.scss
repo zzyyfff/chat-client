@@ -1,4 +1,20 @@
 $gray: #888;
+$yellowfade-start: #fce7a3;
+
+@keyframes yellowfade {
+  from {
+    background: $yellowfade-start;
+  }
+
+  to {
+    background: transparent;
+  }
+}
+
+.changed-message {
+  animation-duration: 1.5s;
+  animation-name: yellowfade;
+}
 
 .message {
   width: 100%;

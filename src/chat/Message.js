@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from 'react'
+import AnimateOnChange from 'react-animate-on-change'
 
 import './Message.scss'
 import { updateMessage, destroyMessage } from './api'
 
 const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
   const [messageBody, setMessageBody] = useState(message.body)
+  const [updated, setUpdated] = useState(false)
+  const [firstTime, setFirstTime] = useState(true)
   const thisIsMine = message.owner._id === user._id
 
   useEffect(() => {
     setMessageBody(message.body)
-  }, [message.body])
+    if (firstTime) {
+      setFirstTime(false)
+    } else {
+      setUpdated(true)
+    }
+  }, [message.body]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const resetUpdated = () => {
+    setUpdated(false)
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -38,7 +50,12 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
   }
 
   return (
-    <div className='message'>
+    <AnimateOnChange
+      baseClassName="message"
+      animationClassName="changed-message"
+      animate={updated}
+      onAnimationEnd={resetUpdated}
+      customTag='div'>
       <div className="name-line">
         <h5 key={message._id}>{message.owner.username}:</h5>
         {thisIsMine
@@ -56,7 +73,7 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
         </form>
         : <div className='message-body' onClick={handleMessageBodyClick}>{messageBody}</div>
       }</h5>
-    </div>
+    </AnimateOnChange>
   )
 }
 
