@@ -55,9 +55,13 @@ This project is born out of the Software Engineering Immersive course at General
 12. Fill in README.md
 13. Once all base functionality is established, apply aesthetic style
 
-## First draft Wireframe
+## Wireframe
 
-![img_9561](https://media.git.generalassemb.ly/user/18598/files/f778d800-5f5d-11e9-9118-51f0a706f537)
+[First draft wireframe](https://media.git.generalassemb.ly/user/18598/files/f778d800-5f5d-11e9-9118-51f0a706f537)
+
+## Screenshots
+
+<img width="256" alt="sc1" src="https://user-images.githubusercontent.com/7986137/56422705-d32b3d00-6276-11e9-9293-85c32a2df430.png"><img width="256" alt="sc2" src="https://user-images.githubusercontent.com/7986137/56422725-efc77500-6276-11e9-8a53-d0847ee9e41b.png"><img width="256" alt="sc3" src="https://user-images.githubusercontent.com/7986137/56422739-07066280-6277-11e9-98c8-9bafff218672.png"><img width="256" alt="sc4" src="https://user-images.githubusercontent.com/7986137/56422748-11286100-6277-11e9-804a-837ee84d45d5.png"><img width="256" alt="sc5" src="https://user-images.githubusercontent.com/7986137/56422756-15ed1500-6277-11e9-9536-cd1523b3438d.png"><img width="256" alt="sc6" src="https://user-images.githubusercontent.com/7986137/56422759-19809c00-6277-11e9-85d9-b74de3d0f273.png"><img width="256" alt="sc7" src="https://user-images.githubusercontent.com/7986137/56422762-1c7b8c80-6277-11e9-8352-1d4c27376bce.png">
 
 ## Some Sample User Stories
 + As a user, I want to sign up for an account.
