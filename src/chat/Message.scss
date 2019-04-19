@@ -1,22 +1,42 @@
 $gray: #888;
-$yellowfade-start: #fce7a3;
-
+$very-light-gray: #f5f5f5;
+$yellowfade-start: #ffe58d;
+$softblue: #6699cb;
+$white: #fff;
+$reddish: #cb6666;
 @keyframes yellowfade {
   from {
     background: $yellowfade-start;
   }
 
   to {
-    background: transparent;
+    background: $very-light-gray;
   }
 }
 
 .changed-message {
-  animation-duration: 1.5s;
+  animation-duration: 2.5s;
   animation-name: yellowfade;
 }
 
+.is-me {
+  background-color: $softblue;
+  color: $white;
+}
+
+.is-them {
+  background-color: $very-light-gray;
+}
+
+.and-us {
+  border-radius: .5rem;
+  box-shadow: 0 0 2px 0 rgba(50, 50, 50, 0.75);
+  margin: .3rem;
+  padding: .6rem .6rem .2rem;
+}
+
 .message {
+  overflow-wrap: break-word;
   width: 100%;
 
   :hover .close-x {
@@ -30,13 +50,16 @@ $yellowfade-start: #fce7a3;
 
 .name-line {
   display: flex;
+  font-style: italic;
   justify-content: space-between;
 
   .close-x {
-    color: $gray;
+    color: $reddish;
     cursor: pointer;
     display: none;
     font-family: helvetica;
+    font-style: normal;
+    text-shadow: 0 0 5px $white, 0 0 10px $white, 0 0 15px $white, 0 0 20px $white, 0 0 30px $white, 0 0 40px $white, 0 0 55px $white, 0 0 75px $white;
   }
 }
 

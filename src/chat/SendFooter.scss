@@ -1,5 +1,10 @@
+$lightgray: #bbb;
+
 .send-footer {
-  height: 1.875rem;
+  border-top: 1px solid $lightgray;
+  height: 1.9rem;
+  margin-bottom: .188rem;
+  padding: .094rem .188rem .188rem;
   width: 100%;
 }
 

@@ -74,7 +74,7 @@ const Chat = ({ user, alert, match }) => {
   return (
     <div className='chat'>
       <h1 className='message-list-title' onClick={clearCurrentEditor}>
-        <Link to='/chat-list' style={{ textDecoration: 'none' }}>↖</Link> Chat with {chatWithName}
+        <Link to='/chat-list' style={{ textDecoration: 'none' }}>↖</Link> ∿{chatWithName}
       </h1>
       <div className="message-list">
         {messageArray.length === 0

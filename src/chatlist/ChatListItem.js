@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { getChat } from './api'
 
 const ChatListItem = ({ user, chat, history }) => {
-  const [lastMessageDisplay, setLastMessageDisplay] = useState('...')
+  const [lastMessagePreview, setLastMessagePreview] = useState('...')
   const [redirectToChat, setRedirectToChat] = useState(false)
 
   const chatWithName = user.username === chat.user1.username
@@ -17,10 +17,14 @@ const ChatListItem = ({ user, chat, history }) => {
         .then(res => {
           const messages = res.data.chat.messages
           if (messages.length > 0) {
-            return setLastMessageDisplay(messages[messages.length - 1].owner.username +
-            ': ' + messages[messages.length - 1].body)
+            let previewString = messages[messages.length - 1].owner.username +
+            ': ' + messages[messages.length - 1].body
+            if (previewString.length > 31) {
+              previewString = previewString.substring(0, 31) + '...'
+            }
+            return setLastMessagePreview(previewString)
           } else {
-            return setLastMessageDisplay('...')
+            return setLastMessagePreview('...')
           }
         })
         .catch(console.error)
@@ -42,7 +46,7 @@ const ChatListItem = ({ user, chat, history }) => {
           <div className="username">{chatWithName}</div>
           <div className="online-status"></div>
         </div>
-        <div className="message-preview">{lastMessageDisplay}</div>
+        <div className="message-preview">{lastMessagePreview}</div>
       </div>
     </Fragment>
   )

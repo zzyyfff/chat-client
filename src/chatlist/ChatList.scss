@@ -1,4 +1,4 @@
-$charcoal: #bbb;
+$rather-light-gray: #dadada;
 $black75: rgba(0, 0, 0, .75);
 
 .break {
@@ -11,7 +11,8 @@ $black75: rgba(0, 0, 0, .75);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 100%;
+  margin: .188rem 0 .188rem .3rem;
+  width: 97.5%;
 }
 
 .chat-list-title {
@@ -25,13 +26,21 @@ $black75: rgba(0, 0, 0, .75);
 //   justify-self: self-end;
 // }
 
+.message-preview {
+  font-style: italic;
+  padding: 0 .376rem;
+}
+
 .target-user-input {
   width: 100%;
 }
 
 .topline {
+  border-bottom: 1px dotted $rather-light-gray;
   display: flex;
   flex-direction: row;
+  font-weight: bold;
   justify-content: space-between;
+  padding: 0 .188rem;
   width: 100%;
 }

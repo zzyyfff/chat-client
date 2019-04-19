@@ -1,3 +1,6 @@
+$black: #000;
+$lightgray: #bbb;
+
 .chat {
   display: flex;
   flex-direction: column;
@@ -9,11 +12,15 @@
   flex-grow: 1;
   flex-shrink: 0;
   // = viewport - Header - SendFooter - message-list-title - .container padding
-  height: calc(100vh - 170px - 1.875rem - 3rem - .188rem);
+  height: calc(100vh - 170px - 1.9rem - 3rem - .188rem);
+  // margin-right: .188rem;
   overflow-y: scroll;
+  padding-right: .633rem;
 }
 
 .message-list-title {
+  border-bottom: .2px solid $lightgray;
   height: 3rem;
   margin-bottom: 0;
+  padding: 0 .188rem;
 }

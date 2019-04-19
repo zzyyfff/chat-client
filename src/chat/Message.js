@@ -8,7 +8,8 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
   const [messageBody, setMessageBody] = useState(message.body)
   const [updated, setUpdated] = useState(false)
   const [firstTime, setFirstTime] = useState(true)
-  const thisIsMine = message.owner._id === user._id
+  let destroying = false
+  const isMe = message.owner._id === user._id
 
   useEffect(() => {
     setMessageBody(message.body)
@@ -37,13 +38,28 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
     setMessageBody(event.target.value)
   }
 
-  const handleMessageBodyClick = () => {
-    if (thisIsMine) {
-      setCurrentEditor(message._id)
-    }
+  const handleMessageDivClick = () => {
+    // kick this operation to the queue so that handleX() can
+    // have a chance to set destroying = true *first*
+    setTimeout(() => {
+      if (destroying) {
+        // don't go into edit mode if soon to be unmounted/destroyed
+        return
+      }
+      // if this is not the currentEditor and Message is owned by me
+      if (currentEditor !== message._id && isMe) {
+        setCurrentEditor(message._id)
+      } else if (currentEditor === message._id) {
+      // if this is the currentEditor, ignore click
+      } else {
+      // if clicking elsewhere, like on .is-them, then unset the editor
+        setCurrentEditor(null)
+      }
+    }, 1)
   }
 
   const handleX = () => {
+    destroying = true
     destroyMessage(user, message._id)
       .then()
       .catch(console.error)
@@ -51,28 +67,30 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
 
   return (
     <AnimateOnChange
-      baseClassName="message"
+      baseClassName={isMe ? 'message is-me and-us' : 'message is-them and-us'}
       animationClassName="changed-message"
-      animate={updated}
+      animate={isMe ? false : updated}
       onAnimationEnd={resetUpdated}
       customTag='div'>
-      <div className="name-line">
-        <h5 key={message._id}>{message.owner.username}:</h5>
-        {thisIsMine
-          ? <div className="close-x" onClick={handleX}>X&nbsp;&nbsp;&nbsp;</div>
-          : <div className="close-x"></div>}
+      <div onClick={handleMessageDivClick}>
+        <div className="name-line">
+          <div key={message._id}>{message.owner.username}:</div>
+          {isMe
+            ? <div className="close-x" onClick={handleX}>X&nbsp;&nbsp;&nbsp;</div>
+            : <div className="close-x"></div>}
+        </div>
+        <h5>{currentEditor === message._id
+          ? <form className='update-message-form' onSubmit={handleSubmit}>
+            <input className='update-message-input'
+              value={messageBody}
+              placeholder='Enter Message'
+              name="body"
+              autoComplete='off'
+              onChange={handleMessageBodyChange}/>
+          </form>
+          : <div className='message-body'>{messageBody}</div>
+        }</h5>
       </div>
-      <h5>{currentEditor === message._id
-        ? <form className='update-message-form' onSubmit={handleSubmit}>
-          <input className='update-message-input'
-            value={messageBody}
-            placeholder='Enter Message'
-            name="body"
-            autoComplete='off'
-            onChange={handleMessageBodyChange}/>
-        </form>
-        : <div className='message-body' onClick={handleMessageBodyClick}>{messageBody}</div>
-      }</h5>
     </AnimateOnChange>
   )
 }
