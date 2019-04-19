@@ -29,7 +29,8 @@ const ChatList = ({ user, alert }) => {
     }
   }, [user.username])
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    event.preventDefault()
     setTargetUser('')
     setShowModal(false)
     getChats(user)
@@ -45,11 +46,14 @@ const ChatList = ({ user, alert }) => {
     setTargetUser(event.target.value)
   }
 
-  const handleCreate = () => {
+  const handleCreate = (event) => {
+    event.persist() // prevents synthetic event warning
+    event.preventDefault()
     if (targetUser) {
       createChat(targetUser, user)
-        .then(handleClose)
-        .catch(() => {
+        .then(() => handleClose(event))
+        .catch((res) => {
+          console.log('res:', res)
           setTargetUser('')
           alert('Please try again.', 'danger', 'Username not found', 2000)
         })
@@ -66,19 +70,21 @@ const ChatList = ({ user, alert }) => {
           <Button variant="outline-primary" onClick={handleShow}>New Chat</Button>
         </div>
       </h1>
-      {chatArray.length === 0
-        ? <div className="empty-list">Start a new conversation!</div>
-        : '' }
-      {chatArray && chatArray.map((chat, index) => (
-        <ChatListItem key={index} user={user} alert={alert} chat={chat} />
-      ))}
+      <div className="chat-list-item-array">
+        {chatArray.length === 0
+          ? <div className="empty-list">Start a new conversation!</div>
+          : '' }
+        {chatArray && chatArray.map((chat, index) => (
+          <ChatListItem key={index} user={user} alert={alert} chat={chat} />
+        ))}
+      </div>
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Start a new Chat!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <form id="create-chat-form">
+        <form id="create-chat-form" onSubmit={handleCreate}>
+          <Modal.Body>
             <input
               className='target-user-input'
               name="targetUser"
@@ -86,16 +92,16 @@ const ChatList = ({ user, alert }) => {
               type="text"
               onChange={handleTargetUserChange}
               placeholder='Enter username of person to chat with!' />
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
               Close
-          </Button>
-          <Button variant="primary" onClick={handleCreate}>
+            </Button>
+            <Button variant="primary" onClick={handleCreate}>
               Create Chat!
-          </Button>
-        </Modal.Footer>
+            </Button>
+          </Modal.Footer>
+        </form>
       </Modal>
     </div>
   )

@@ -1,4 +1,5 @@
 $rather-light-gray: #dadada;
+$lightgray: #bbb;
 $black75: rgba(0, 0, 0, .75);
 
 .break {
@@ -15,9 +16,23 @@ $black75: rgba(0, 0, 0, .75);
   width: 97.5%;
 }
 
+.chat-list-item-array {
+  flex-grow: 1;
+  flex-shrink: 0;
+  // = viewport - Header - chat-list-title
+  height: calc(100vh - 170px - 3rem);
+  overflow-y: scroll;
+  padding-bottom: .564rem;
+  padding-top: .094rem;
+}
+
 .chat-list-title {
+  border-bottom: 1px solid $lightgray;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 0;
+  padding-bottom: .367rem;
   padding-left: .438rem;
   padding-right: .438rem;
 }
