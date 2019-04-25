@@ -1,11 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 
 import { getChat } from './api'
 
-const ChatListItem = ({ user, chat, history }) => {
+const ChatListItem = ({ user, chat, history, goToChatId }) => {
   const [lastMessagePreview, setLastMessagePreview] = useState('...')
-  const [redirectToChat, setRedirectToChat] = useState(false)
 
   const chatWithName = user.username === chat.user1.username
     ? chat.user2.username
@@ -35,12 +34,11 @@ const ChatListItem = ({ user, chat, history }) => {
   }, [user, chat._id])
 
   const goToChat = () => {
-    setRedirectToChat(true)
+    goToChatId(chat._id)
   }
 
   return (
     <Fragment>
-      {redirectToChat ? <Redirect to={`/chat/${chat._id}`}/> : ''}
       <div className='chat-list-item' onClick={goToChat}>
         <div className="topline">
           <div className="username">{chatWithName}</div>
