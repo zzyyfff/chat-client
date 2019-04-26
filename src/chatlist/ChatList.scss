@@ -1,19 +1,63 @@
 $rather-light-gray: #dadada;
 $lightgray: #bbb;
+$ultralightpurp: rgb(255, 250, 255);
+$verylightpurp: rgb(255, 247, 255);
+$quitelightpurp: rgb(255, 243, 255);
+$ratherlightpurp: rgb(255, 230, 255);
+$grossdarkyellow: rgb(100, 100, 0);
 $black75: rgba(0, 0, 0, .75);
+$deepblue: rgb(6, 82, 171);
+$deepblue75: rgba(6, 82, 171, .75);
 
 .break {
   height: 0;
   width: 100%;
 }
 
+.chat-list {
+  user-select: none;
+}
+
 .chat-list-item {
+  background-color: $ultralightpurp;
   box-shadow: 1px 1px 3px 0 $black75;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: .188rem 0 .188rem .3rem;
+  margin: .188rem 0 .376rem .3rem;
+  transition: background-color .2s, box-shadow .5s, transform .5s;
   width: 97.5%;
+
+  &:hover {
+    background-color: $quitelightpurp;
+    $ratherlightpurp: rgb(255, 243, 255);
+    box-shadow: 2px 2px 3px 0 $black75;
+    transform: translate(-1px, -1px);
+    transition: background-color .3s, box-shadow .1s, transform .1s;
+  }
+
+  &:active {
+    background-color: $ratherlightpurp;
+    box-shadow: 0 0 2px 0 $black75;
+    transform: translate(1px, 1px);
+  }
+
+  > .topline {
+    border-bottom: 1px dotted $lightgray;
+    color: $deepblue;
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    justify-content: space-between;
+    padding: 0 .188rem;
+    width: 100%;
+  }
+
+  > .message-preview {
+    font-style: italic;
+    padding: 0 .376rem;
+  }
 }
 
 .chat-list-item-array {
@@ -41,21 +85,6 @@ $black75: rgba(0, 0, 0, .75);
 //   justify-self: self-end;
 // }
 
-.message-preview {
-  font-style: italic;
-  padding: 0 .376rem;
-}
-
 .target-user-input {
-  width: 100%;
-}
-
-.topline {
-  border-bottom: 1px dotted $rather-light-gray;
-  display: flex;
-  flex-direction: row;
-  font-weight: bold;
-  justify-content: space-between;
-  padding: 0 .188rem;
   width: 100%;
 }
