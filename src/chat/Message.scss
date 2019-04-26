@@ -2,6 +2,7 @@ $gray: #888;
 $very-light-gray: #f5f5f5;
 $yellowfade-start: #ffe58d;
 $softblue: #6699cb;
+$softerblue: #92afcb;
 $white: #fff;
 $reddish: #cb6666;
 @keyframes yellowfade {
@@ -50,8 +51,11 @@ $reddish: #cb6666;
 
 .name-line {
   display: flex;
-  font-style: italic;
   justify-content: space-between;
+
+  .name {
+    font-style: italic;
+  }
 
   .close-x {
     color: $reddish;
@@ -64,9 +68,15 @@ $reddish: #cb6666;
 }
 
 .update-message-form {
+  margin-top: .4rem;
   width: 100%;
 }
 
 .update-message-input {
   width: 100% !important;
+}
+
+.update-tip {
+  background-color: $softerblue;
+  padding: .3rem;
 }

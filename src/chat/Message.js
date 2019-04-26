@@ -6,12 +6,14 @@ import { updateMessage, destroyMessage } from './api'
 
 const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
   const [messageBody, setMessageBody] = useState(message.body)
+  const [previousMessageBody, setPreviousMessageBody] = useState(message.body)
   const [updated, setUpdated] = useState(false)
   const [firstTime, setFirstTime] = useState(true)
   let destroying = false
   const isMe = message.owner._id === user._id
 
   useEffect(() => {
+    // flash yellow on message.body update
     setMessageBody(message.body)
     if (firstTime) {
       setFirstTime(false)
@@ -19,6 +21,14 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
       setUpdated(true)
     }
   }, [message.body]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    // if this is no longer the currentEditor and Message is owned by me
+    if (currentEditor !== message._id && isMe) {
+      // reset messageBody to previous state becuase it was not submitted
+      setMessageBody(previousMessageBody)
+    }
+  }, [currentEditor, isMe, message._id, previousMessageBody])
 
   const resetUpdated = () => {
     setUpdated(false)
@@ -29,6 +39,7 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
     updateMessage(user, message._id, messageBody)
       .then(res => {
         setMessageBody(res.data.message.body)
+        setPreviousMessageBody(res.data.message.body)
         setCurrentEditor('')
       })
       .catch(console.error)
@@ -74,7 +85,11 @@ const Message = ({ user, alert, message, currentEditor, setCurrentEditor }) => {
       customTag='div'>
       <div onClick={handleMessageDivClick}>
         <div className="name-line">
-          <div key={message._id}>{message.owner.username}:</div>
+          <div key={message._id}><span className="name">{message.owner.username}:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            {currentEditor === message._id
+              ? <span className='update-tip'>Press <kbd>Enter</kbd> to submit edit.</span>
+              : ''}
+          </div>
           {isMe
             ? <div className="close-x" onClick={handleX}>X&nbsp;&nbsp;&nbsp;</div>
             : <div className="close-x"></div>}

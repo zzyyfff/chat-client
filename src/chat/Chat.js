@@ -71,6 +71,22 @@ const Chat = ({ user, alert, match }) => {
     }
   }, [chatWithName, user.username])
 
+  const escFunction = (event) => {
+    console.log('esc key pressed!')
+    if (event.keyCode === 27) {
+      setCurrentEditor(null)
+    }
+  }
+
+  useEffect(() => {
+    console.log('esc key event listener crearted')
+    document.addEventListener('keydown', escFunction, false)
+    return () => {
+      console.log('esc key event listener removed')
+      document.removeEventListener('keydown', escFunction, false)
+    }
+  }, [])
+
   return (
     <div className='chat'>
       <h1 className='message-list-title' onClick={clearCurrentEditor}>
