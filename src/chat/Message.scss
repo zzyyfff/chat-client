@@ -5,6 +5,8 @@ $softblue: #6699cb;
 $softerblue: #92afcb;
 $white: #fff;
 $reddish: #cb6666;
+$message-edit-glow: rgba(255, 230, 255, .4);
+
 @keyframes yellowfade {
   from {
     background: $yellowfade-start;
@@ -23,6 +25,12 @@ $reddish: #cb6666;
 .is-me {
   background-color: $softblue;
   color: $white;
+
+  :hover > .message-body {
+    cursor: pointer;
+    text-shadow: 0 0 5px $message-edit-glow, 0 0 10px $message-edit-glow, 0 0 15px $message-edit-glow, 0 0 20px $message-edit-glow, 0 0 30px $message-edit-glow, 0 0 40px $message-edit-glow, 0 0 55px $message-edit-glow, 0 0 75px $message-edit-glow;
+    transition: text-shadow .3s ease;
+  }
 }
 
 .is-them {
@@ -41,12 +49,15 @@ $reddish: #cb6666;
   width: 100%;
 
   :hover .close-x {
-    display: block;
+    // display: block;
+    opacity: 1;
+    transition: opacity .3s ease;
   }
 }
 
 .message-body {
   width: 100%;
+  transition: text-shadow .3s ease;
 }
 
 .name-line {
@@ -57,13 +68,15 @@ $reddish: #cb6666;
     font-style: italic;
   }
 
-  .close-x {
+  > .close-x {
     color: $reddish;
     cursor: pointer;
-    display: none;
+    display: block;
     font-family: helvetica;
     font-style: normal;
+    opacity: 0;
     text-shadow: 0 0 5px $white, 0 0 10px $white, 0 0 15px $white, 0 0 20px $white, 0 0 30px $white, 0 0 40px $white, 0 0 55px $white, 0 0 75px $white;
+    transition: opacity .3s ease;
   }
 }
 
