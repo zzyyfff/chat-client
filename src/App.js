@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import './App.scss'
 import { Route } from 'react-router-dom'
 
@@ -14,21 +14,13 @@ import Chat from './chat/Chat'
 
 import { AlertList } from 'react-bs-notifier'
 
-class App extends Component {
-  constructor () {
-    super()
+const App = () => {
+  const [user, setUser] = useState(null)
+  const [alerts, setAlerts] = useState([])
 
-    this.state = {
-      user: null,
-      alerts: []
-    }
-  }
+  const clearUser = () => setUser(null)
 
-  setUser = user => this.setState({ user })
-
-  clearUser = () => this.setState({ user: null })
-
-  alert = (message, type, headline = '', timeout = 2000) => {
+  const alert = (message, type, headline = '', timeout = 2000) => {
     const newAlert = {
       id: (new Date()).getTime(),
       type: type,
@@ -36,73 +28,56 @@ class App extends Component {
       message: message
     }
 
-    this.setState(prevState => ({
-      alerts: [...prevState.alerts, newAlert]
-    }), () => {
-      setTimeout(() => {
-        const index = this.state.alerts.indexOf(newAlert)
-        if (index >= 0) {
-          this.setState(prevState => ({
-            // remove the alert from the array
-            alerts: [...prevState.alerts.slice(0, index), ...prevState.alerts.slice(index + 1)]
-          }))
-        }
-      }, timeout)
-    })
+    setAlerts(prevState => [...prevState, newAlert])
   }
-  onAlertDismissed (alert) {
-    const { alerts } = this.state
 
+  const onAlertDismissed = (alertArgument) => {
     // find the index of the alert that was dismissed
-    const index = alerts.indexOf(alert)
+    const index = alerts.findIndex(x => x.id === alertArgument.id)
 
     if (index >= 0) {
-      this.setState({
+      setAlerts(prevState => {
         // remove the alert from the array
-        alerts: [...alerts.slice(0, index), ...alerts.slice(index + 1)]
+        return [...prevState.slice(0, index), ...prevState.slice(index + 1)]
       })
     }
   }
 
-  render () {
-    const { alerts, user } = this.state
-
-    return (
-      <React.Fragment>
-        <Header user={user} />
-        <AlertList
-          position='bottom-right'
-          alerts={alerts}
-          timeout={0}
-          dismissTitle="Begone!"
-          onDismiss={this.onAlertDismissed.bind(this)}
-        />
-        <main className="container">
-          <Route user={user} exact path='/' render={() => (
-            <Home alert={this.alert} user={user} />
-          )} />
-          <Route path='/sign-up' render={() => (
-            <SignUp alert={this.alert} setUser={this.setUser} />
-          )} />
-          <Route path='/sign-in' render={() => (
-            <SignIn alert={this.alert} setUser={this.setUser} />
-          )} />
-          <AuthenticatedRoute user={user} path='/sign-out' render={() => (
-            <SignOut alert={this.alert} clearUser={this.clearUser} user={user} />
-          )} />
-          <AuthenticatedRoute user={user} path='/change-password' render={() => (
-            <ChangePassword alert={this.alert} user={user} />
-          )} />
-          <AuthenticatedRoute user={user} path='/chat-list' render={() => (
-            <ChatList alert={this.alert} user={user} />
-          )} />
-          <AuthenticatedRoute user={user} path='/chat/:id' render={({ match }) => (
-            <Chat alert={this.alert} user={user} match={match} />
-          )} />
-        </main>
-      </React.Fragment>
-    )
-  }
+  return (
+    <React.Fragment>
+      <Header user={user} />
+      <AlertList
+        position='bottom-right'
+        alerts={alerts}
+        timeout={2000}
+        dismissTitle="Begone!"
+        onDismiss={onAlertDismissed.bind(this)}
+      />
+      <main className="container">
+        <Route user={user} exact path='/' render={() => (
+          <Home alert={alert} user={user} />
+        )} />
+        <Route path='/sign-up' render={() => (
+          <SignUp alert={alert} setUser={setUser} />
+        )} />
+        <Route path='/sign-in' render={() => (
+          <SignIn alert={alert} setUser={setUser} />
+        )} />
+        <AuthenticatedRoute user={user} path='/sign-out' render={() => (
+          <SignOut alert={alert} clearUser={clearUser} user={user} />
+        )} />
+        <AuthenticatedRoute user={user} path='/change-password' render={() => (
+          <ChangePassword alert={alert} user={user} />
+        )} />
+        <AuthenticatedRoute user={user} path='/chat-list' render={() => (
+          <ChatList alert={alert} user={user} />
+        )} />
+        <AuthenticatedRoute user={user} path='/chat/:id' render={({ match }) => (
+          <Chat alert={alert} user={user} match={match} />
+        )} />
+      </main>
+    </React.Fragment>
+  )
 }
 
 export default App
